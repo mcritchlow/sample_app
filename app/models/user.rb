@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
   attr_accessible :email, :name, :password, :password_confirmation
   #Rails 3.x function that assumes a password and password confirmation. Required password_digest field
   has_secure_password
-  before_save { |user| user.email = email.downcase }
+  before_save { self.email.downcase! }
   
   #validation
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
