@@ -15,6 +15,7 @@ class User < ActiveRecord::Base
   #Rails 3.x function that assumes a password and password confirmation. Required password_digest field
   has_secure_password
   before_save { self.email.downcase! }
+  before_save :create_remember_token
   
   #validation
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
@@ -26,5 +27,8 @@ class User < ActiveRecord::Base
   validates :password, length: { minimum: 6 }
   validates :password_confirmation, presence: true
   
-  
+  private
+  def create_remember_token
+    self.remember_token = SecureRandom.urlsafe_base64
+  end
 end
